@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Sparkles, Home, Briefcase, Info, Mail } from "lucide-react"
+import { Menu, X, Sparkles, Home, Briefcase, Info, Mail, Users } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export function Navigation() {
@@ -14,8 +14,7 @@ export function Navigation() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
 
-      // Track active section
-      const sections = ["home", "services", "about", "contact"]
+      const sections = ["home", "services", "team", "about", "contact"]
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -45,6 +44,7 @@ export function Navigation() {
   const navItems = [
     { id: "home", label: "Home", icon: Home },
     { id: "services", label: "Services", icon: Briefcase },
+    { id: "team", label: "Team", icon: Users },
     { id: "about", label: "About", icon: Info },
     { id: "contact", label: "Contact", icon: Mail },
   ]

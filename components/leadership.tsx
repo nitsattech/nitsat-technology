@@ -1,11 +1,12 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { Float, MeshDistortMaterial, OrbitControls } from "@react-three/drei"
 import { Linkedin, Mail, Award, Sparkles } from "lucide-react"
 import type * as THREE from "three"
+import { LeaderProfileModal } from "./leader-profile-modal"
 
 function FloatingCube({ position, color }: { position: [number, number, number]; color: string }) {
   const meshRef = useRef<THREE.Mesh>(null)
@@ -42,10 +43,12 @@ const leaders = [
     role: "CEO & Founder",
     image: "/professional-ceo-male-portrait.jpeg",
     bio: "Visionary leader with 5+ years in tech innovation. Passionate about transforming businesses through cutting-edge solutions.",
-    achievements: [ "Tech Innovation Award 2024", "Global Leadership Excellence", "Leadership Medal"],
+    achievements: [ "Tech Innovation Award 2024", "Global Leadership Excellence", "Team Leadership"],
     linkedin: "#",
     email: "Neha@nitsat.tech",
     gradient: "from-purple-600 via-pink-600 to-red-600",
+    education: ["MBA, University of Mumbai ", "B.Sc IT , University of Allahabad"],
+    expertise: ["Strategic Planning", "Business Development", "Technology Innovation", "Team Leadership"],
   },
   {
     name: "Rajni Mishra",
@@ -56,12 +59,16 @@ const leaders = [
     linkedin: "#",
     email: "Rajni@nitsat.tech",
     gradient: "from-cyan-600 via-blue-600 to-indigo-600",
+    education: ["MBA Operations Management, REC Warangal", "B.E. Computer Science Engineering, UCER Allahabad"],
+    expertise: ["Operations Management", "Process Optimization", "Client Relations", "Strategic Planning"],
   },
 ]
 
 export function Leadership() {
+  const [selectedLeader, setSelectedLeader] = useState<(typeof leaders)[0] | null>(null)
+
   return (
-    <section className="py-20 sm:py-24 lg:py-32 bg-background relative overflow-hidden">
+    <section id="team" className="py-20 sm:py-24 lg:py-32 bg-background relative overflow-hidden">
       {/* 3D Background */}
       <div className="absolute inset-0 opacity-20">
         <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
@@ -82,7 +89,7 @@ export function Leadership() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <motion.div
             initial={{ scale: 0 }}
@@ -132,7 +139,7 @@ export function Leadership() {
                 />
 
                 {/* Image Section */}
-                <div className="relative h-143 overflow-hidden">
+                <div className="relative h-115 overflow-hidden cursor-pointer" onClick={() => setSelectedLeader(leader)}>
                   <motion.img
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.6 }}
@@ -141,6 +148,14 @@ export function Leadership() {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+                  >
+                    <p className="text-white font-semibold text-lg">Click to view profile</p>
+                  </motion.div>
 
                   {/* Floating Badge */}
                   <motion.div
@@ -243,6 +258,10 @@ export function Leadership() {
           ))}
         </div>
       </div>
+
+      {selectedLeader && (
+        <LeaderProfileModal leader={selectedLeader} isOpen={!!selectedLeader} onClose={() => setSelectedLeader(null)} />
+      )}
     </section>
   )
 }
