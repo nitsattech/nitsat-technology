@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react"
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from "lucide-react"
 import type * as THREE from "three"
 
 function ContactOrb() {
@@ -69,22 +69,42 @@ export function Contact() {
   })
 
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
-    console.log("[v0] Contact form data:", {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      message: formData.message,
-      timestamp: new Date().toISOString(),
-    })
-    setIsSubmitted(true)
-    setTimeout(() => {
-      setFormData({ name: "", email: "", phone: "", message: "" })
-      setIsSubmitted(false)
-    }, 3000)
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to send message")
+      }
+
+      console.log("Contact saved to database:", result.data)
+      setIsSubmitted(true)
+
+      setTimeout(() => {
+        setFormData({ name: "", email: "", phone: "", message: "" })
+        setIsSubmitted(false)
+      }, 3000)
+    } catch (err) {
+      console.error("Error submitting form:", err)
+      setError(err instanceof Error ? err.message : "Failed to send message. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -183,6 +203,17 @@ export function Contact() {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2 p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+                  >
+                    <AlertCircle className="w-5 h-5 text-red-500" />
+                    <p className="text-red-500 text-sm">{error}</p>
+                  </motion.div>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -279,9 +310,10 @@ export function Contact() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-semibold shadow-lg hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 group"
+                    disabled={isLoading}
+                    className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-semibold shadow-lg hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <span>Send Message</span>
+                    <span>{isLoading ? "Sending..." : "Send Message"}</span>
                     <Send className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </Button>
                 </motion.div>

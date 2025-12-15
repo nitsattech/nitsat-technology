@@ -50,7 +50,7 @@ const leaders = [
   {
     name: "Rajni Mishra",
     role: "Director of Operations",
-    image: "/professional-director-female-portrait.jpg",
+    image: "/professional-director-female-portrait.jpeg",
     bio: "Strategic operations expert driving excellence across all departments. Committed to operational efficiency and client satisfaction.",
     achievements: ["Best Director Award 2023", "Operations Excellence Champion", "Industry Leadership Medal"],
     linkedin: "#",
