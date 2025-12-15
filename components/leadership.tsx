@@ -47,6 +47,9 @@ const leaders = [
     linkedin: "#",
     email: "Neha@nitsat.tech",
     gradient: "from-purple-600 via-pink-600 to-red-600",
+  // objectPosition controls how the image is cropped inside the container (x% y%).
+  // Decrease the second value to move the image up (show more of the lower part of the photo / face).
+  objectPosition: "50% 35%",
     education: ["MBA, University of Mumbai ", "B.Sc IT , University of Allahabad"],
     expertise: ["Strategic Planning", "Business Development", "Technology Innovation", "Team Leadership"],
   },
@@ -146,6 +149,7 @@ export function Leadership() {
                     src={leader.image}
                     alt={leader.name}
                     className="w-full h-full object-cover"
+                    style={{ objectPosition: (leader as any).objectPosition || "50% 50%" }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
 
