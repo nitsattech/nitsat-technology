@@ -68,7 +68,7 @@ const features = [
   { icon: Award, text: "Proven Track Record", color: "from-green-400 to-emerald-500" },
 ]
 
-export default function About() {
+export function About() {
   const statsRef = useRef<HTMLDivElement>(null)
   const isStatsInView = useInView(statsRef, { once: true })
 

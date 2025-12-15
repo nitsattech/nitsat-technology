@@ -53,14 +53,14 @@ function Particles() {
   return (
     <points ref={particlesRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={particleCount} array={positions} itemSize={3} args={[]} />
+        <bufferAttribute attach="attributes-position" count={particleCount} array={positions} itemSize={3} />
       </bufferGeometry>
       <pointsMaterial size={0.05} color="#06b6d4" transparent opacity={0.6} />
     </points>
   )
 }
 
-export default function Contact() {
+export function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",

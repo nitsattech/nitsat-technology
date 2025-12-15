@@ -201,7 +201,7 @@ function Scene3D() {
   )
 }
 
-export default function Hero3D() {
+export function Hero3D() {
   return (
     <section id="home" className="relative w-full h-screen overflow-hidden">
       {/* 3D Canvas Background */}
