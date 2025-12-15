@@ -40,7 +40,7 @@ function FloatingCube({ position, color }: { position: [number, number, number];
 const leaders = [
   {
     name: "Neha Mishra",
-    role: "CEO & Founder",
+    role: "Founder & CEO",
     image: "/professional-ceo-male-portrait.jpeg",
     bio: "Visionary leader with 5+ years in tech innovation. Passionate about transforming businesses through cutting-edge solutions.",
     achievements: [ "Tech Innovation Award 2024", "Global Leadership Excellence", "Team Leadership"],
