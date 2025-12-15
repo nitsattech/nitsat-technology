@@ -162,10 +162,11 @@ export function CompanyModal({ isOpen, onClose }: CompanyModalProps) {
 
             {/* Close Button */}
             <motion.button
+              type="button"
               whileHover={{ scale: 1.2, rotate: 180 }}
               whileTap={{ scale: 0.9 }}
               onClick={handleCloseClick}
-              className="absolute top-6 right-6 z-10 p-3 bg-background/90 backdrop-blur-sm rounded-full border-2 border-border hover:border-primary transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-primary/50"
+              className="absolute top-6 right-6 z-[200] p-3 bg-background/90 backdrop-blur-sm rounded-full border-2 border-border hover:border-primary transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-primary/50"
               aria-label="Close modal"
             >
               <X className="w-6 h-6 text-foreground" />
