@@ -4,8 +4,9 @@ import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Float, Environment, MeshDistortMaterial, Stars } from "@react-three/drei"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import type * as THREE from "three"
+import { CompanyModal } from "./company-modal"
 
 function ParticleRing() {
   const ringRef = useRef<THREE.Group>(null)
@@ -202,6 +203,8 @@ function Scene3D() {
 }
 
 export function Hero3D() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   return (
     <section id="home" className="relative w-full h-screen overflow-hidden">
       {/* 3D Canvas Background */}
@@ -231,17 +234,23 @@ export function Hero3D() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
               size="lg"
-              className="text-base group bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 animate-gradient hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
+              className="text-base group relative overflow-hidden bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 animate-gradient hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-500 hover:scale-110 hover:rotate-1"
             >
-              Get Started
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <span className="relative z-10 flex items-center">
+                Get Started
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:scale-125 transition-all duration-300" />
+              </span>
+              <span className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient" />
+              <span className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-600 blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500" />
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="text-base bg-transparent border-2 border-purple-500/50 hover:bg-purple-500/10 hover:border-cyan-500/50 transition-all duration-300"
+              onClick={() => setIsModalOpen(true)}
+              className="text-base relative overflow-hidden bg-transparent border-2 border-purple-500/50 hover:bg-purple-500/10 hover:border-cyan-500/50 hover:scale-105 hover:-rotate-1 transition-all duration-500 group"
             >
-              Learn More
+              <span className="relative z-10">Learn More</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             </Button>
           </div>
         </div>
@@ -249,6 +258,9 @@ export function Hero3D() {
 
       {/* Gradient overlay for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background pointer-events-none" />
+
+      {/* Company Modal */}
+      <CompanyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   )
 }
