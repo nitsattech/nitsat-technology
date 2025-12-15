@@ -280,6 +280,13 @@ function Scene3D() {
 export function Hero3D() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const scrollToContact = () => {
+    const contactSection = document.getElementById("contact")
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   return (
     <section id="home" className="relative w-full h-screen overflow-hidden">
       {/* 3D Canvas Background */}
@@ -309,6 +316,7 @@ export function Hero3D() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
               size="lg"
+              onClick={scrollToContact}
               className="text-base group relative overflow-hidden bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 animate-gradient hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-500 hover:scale-110 hover:rotate-1"
             >
               <span className="relative z-10 flex items-center">
