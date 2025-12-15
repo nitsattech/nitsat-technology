@@ -1,6 +1,8 @@
 "use client"
 
-import { useRef, useState } from "react"
+import type React from "react"
+
+import { useRef, useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { Float, MeshDistortMaterial, OrbitControls } from "@react-three/drei"
@@ -95,6 +97,35 @@ const coreValues = [
 export function CompanyModal({ isOpen, onClose }: CompanyModalProps) {
   const [activeTab, setActiveTab] = useState<"about" | "values">("about")
 
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape)
+      document.body.style.overflow = "hidden"
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape)
+      document.body.style.overflow = "unset"
+    }
+  }, [isOpen, onClose])
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
+  }
+
+  const handleCloseClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    onClose()
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -102,7 +133,7 @@ export function CompanyModal({ isOpen, onClose }: CompanyModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={onClose}
+          onClick={handleBackdropClick}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg"
         >
           <motion.div
@@ -115,7 +146,7 @@ export function CompanyModal({ isOpen, onClose }: CompanyModalProps) {
             style={{ perspective: "2000px" }}
           >
             {/* 3D Background */}
-            <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute inset-0 opacity-10 pointer-events-none rounded-3xl overflow-hidden">
               <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={2} color="#8b5cf6" />
@@ -133,8 +164,9 @@ export function CompanyModal({ isOpen, onClose }: CompanyModalProps) {
             <motion.button
               whileHover={{ scale: 1.2, rotate: 180 }}
               whileTap={{ scale: 0.9 }}
-              onClick={onClose}
+              onClick={handleCloseClick}
               className="absolute top-6 right-6 z-10 p-3 bg-background/90 backdrop-blur-sm rounded-full border-2 border-border hover:border-primary transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-primary/50"
+              aria-label="Close modal"
             >
               <X className="w-6 h-6 text-foreground" />
             </motion.button>

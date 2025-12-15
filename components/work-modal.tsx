@@ -1,6 +1,8 @@
 "use client"
 
-import { useRef, useState } from "react"
+import type React from "react"
+
+import { useRef, useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { Float, Sphere, MeshDistortMaterial, OrbitControls } from "@react-three/drei"
@@ -143,6 +145,24 @@ export default function WorkModal({ isOpen, onClose, service }: WorkModalProps) 
   const [currentIndex, setCurrentIndex] = useState(0)
   const works = portfolioWork[service.title as keyof typeof portfolioWork] || []
 
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape)
+      document.body.style.overflow = "hidden"
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape)
+      document.body.style.overflow = "unset"
+    }
+  }, [isOpen, onClose])
+
   const nextWork = () => {
     setCurrentIndex((prev) => (prev + 1) % works.length)
   }
@@ -151,191 +171,207 @@ export default function WorkModal({ isOpen, onClose, service }: WorkModalProps) 
     setCurrentIndex((prev) => (prev - 1 + works.length) % works.length)
   }
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
+  }
+
+  const handleCloseClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    onClose()
+  }
+
   if (works.length === 0) return null
 
   const currentWork = works[currentIndex]
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
-    >
-      <motion.div
-        initial={{ scale: 0.8, rotateX: -20, opacity: 0 }}
-        animate={{ scale: 1, rotateX: 0, opacity: 1 }}
-        exit={{ scale: 0.8, rotateX: 20, opacity: 0 }}
-        transition={{ type: "spring", duration: 0.6 }}
-        onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-5xl bg-card/95 backdrop-blur-xl rounded-2xl overflow-hidden border border-border shadow-2xl"
-        style={{ perspective: "1000px" }}
-      >
-        {/* 3D Background */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-            <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={2} color={service.color} />
-            <pointLight position={[-10, -10, -10]} intensity={1} color={service.color} />
-            <AnimatedSphere color={service.color} />
-            <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} />
-          </Canvas>
-        </div>
-
-        {/* Close Button */}
-        <motion.button
-          whileHover={{ scale: 1.1, rotate: 90 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 p-2 bg-background/80 backdrop-blur-sm rounded-full border border-border hover:border-primary transition-colors"
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={handleBackdropClick}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
         >
-          <X className="w-6 h-6 text-foreground" />
-        </motion.button>
-
-        {/* Content */}
-        <div className="relative z-10 p-8 md:p-12">
-          {/* Header */}
           <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="mb-8"
+            initial={{ scale: 0.5, rotateX: -30, opacity: 0, y: 100 }}
+            animate={{ scale: 1, rotateX: 0, opacity: 1, y: 0 }}
+            exit={{ scale: 0.5, rotateX: 30, opacity: 0, y: -100 }}
+            transition={{ type: "spring", duration: 0.7, bounce: 0.3 }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-5xl bg-card/95 backdrop-blur-xl rounded-2xl overflow-hidden border border-border shadow-2xl"
+            style={{ perspective: "1000px" }}
           >
-            <div
-              className={`inline-block px-4 py-2 bg-gradient-to-r ${service.gradient} text-white rounded-full text-sm font-semibold mb-4`}
-            >
-              {service.title}
+            {/* 3D Background */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none">
+              <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+                <ambientLight intensity={0.5} />
+                <pointLight position={[10, 10, 10]} intensity={2} color={service.color} />
+                <pointLight position={[-10, -10, -10]} intensity={1} color={service.color} />
+                <AnimatedSphere color={service.color} />
+                <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} />
+              </Canvas>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-2">Our Work</h2>
-            <p className="text-muted-foreground text-lg">
-              Real projects, real results. See how we help our clients succeed.
-            </p>
-          </motion.div>
 
-          {/* Portfolio Item */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ x: 300, opacity: 0, rotateY: -20 }}
-              animate={{ x: 0, opacity: 1, rotateY: 0 }}
-              exit={{ x: -300, opacity: 0, rotateY: 20 }}
-              transition={{ type: "spring", duration: 0.6 }}
-              className="grid md:grid-cols-2 gap-8 items-center"
+            {/* Close Button */}
+            <motion.button
+              whileHover={{ scale: 1.2, rotate: 180 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleCloseClick}
+              className="absolute top-6 right-6 z-10 p-3 bg-background/90 backdrop-blur-sm rounded-full border-2 border-border hover:border-primary transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-primary/50"
+              aria-label="Close modal"
             >
-              {/* Image */}
+              <X className="w-6 h-6 text-foreground" />
+            </motion.button>
+
+            {/* Content */}
+            <div className="relative z-10 p-8 md:p-12">
+              {/* Header */}
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="relative rounded-xl overflow-hidden shadow-2xl border border-border"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="mb-8"
               >
-                <img
-                  src={currentWork.image || "/placeholder.svg"}
-                  alt={currentWork.title}
-                  className="w-full h-64 md:h-80 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div
+                  className={`inline-block px-4 py-2 bg-gradient-to-r ${service.gradient} text-white rounded-full text-sm font-semibold mb-4`}
+                >
+                  {service.title}
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-2">Our Work</h2>
+                <p className="text-muted-foreground text-lg">
+                  Real projects, real results. See how we help our clients succeed.
+                </p>
               </motion.div>
 
-              {/* Details */}
-              <div className="space-y-6">
-                <div>
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-primary font-semibold text-sm mb-2"
-                  >
-                    CLIENT: {currentWork.client}
-                  </motion.p>
-                  <motion.h3
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-3xl font-bold text-foreground mb-4"
-                  >
-                    {currentWork.title}
-                  </motion.h3>
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                    className="text-muted-foreground text-lg leading-relaxed"
-                  >
-                    {currentWork.description}
-                  </motion.p>
-                </div>
-
-                {/* Stats */}
+              {/* Portfolio Item */}
+              <AnimatePresence mode="wait">
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                  className="grid grid-cols-3 gap-4"
+                  key={currentIndex}
+                  initial={{ x: 300, opacity: 0, rotateY: -20 }}
+                  animate={{ x: 0, opacity: 1, rotateY: 0 }}
+                  exit={{ x: -300, opacity: 0, rotateY: 20 }}
+                  transition={{ type: "spring", duration: 0.6 }}
+                  className="grid md:grid-cols-2 gap-8 items-center"
                 >
-                  {currentWork.stats.map((stat, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.7 + index * 0.1, type: "spring" }}
-                      whileHover={{ scale: 1.1, y: -5 }}
-                      className={`p-3 bg-gradient-to-br ${service.gradient} rounded-lg text-center`}
-                    >
-                      <CheckCircle2 className="w-5 h-5 text-white mx-auto mb-1" />
-                      <p className="text-white font-bold text-sm">{stat}</p>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Navigation */}
-          {works.length > 1 && (
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="flex items-center justify-between mt-8 pt-8 border-t border-border"
-            >
-              <motion.button
-                whileHover={{ scale: 1.1, x: -5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={prevWork}
-                className="flex items-center gap-2 px-4 py-2 bg-background/50 backdrop-blur-sm rounded-lg border border-border hover:border-primary transition-colors"
-              >
-                <ArrowLeft className="w-5 h-5" />
-                <span className="font-semibold">Previous</span>
-              </motion.button>
-
-              <div className="flex gap-2">
-                {works.map((_, index) => (
+                  {/* Image */}
                   <motion.div
-                    key={index}
-                    animate={{
-                      scale: currentIndex === index ? 1.2 : 1,
-                      opacity: currentIndex === index ? 1 : 0.5,
-                    }}
-                    className={`w-2 h-2 rounded-full ${
-                      currentIndex === index ? `bg-gradient-to-r ${service.gradient}` : "bg-muted"
-                    }`}
-                  />
-                ))}
-              </div>
+                    whileHover={{ scale: 1.05 }}
+                    className="relative rounded-xl overflow-hidden shadow-2xl border border-border"
+                  >
+                    <img
+                      src={currentWork.image || "/placeholder.svg"}
+                      alt={currentWork.title}
+                      className="w-full h-64 md:h-80 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  </motion.div>
 
-              <motion.button
-                whileHover={{ scale: 1.1, x: 5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={nextWork}
-                className="flex items-center gap-2 px-4 py-2 bg-background/50 backdrop-blur-sm rounded-lg border border-border hover:border-primary transition-colors"
-              >
-                <span className="font-semibold">Next</span>
-                <ArrowRight className="w-5 h-5" />
-              </motion.button>
-            </motion.div>
-          )}
-        </div>
-      </motion.div>
-    </motion.div>
+                  {/* Details */}
+                  <div className="space-y-6">
+                    <div>
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                        className="text-primary font-semibold text-sm mb-2"
+                      >
+                        CLIENT: {currentWork.client}
+                      </motion.p>
+                      <motion.h3
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="text-3xl font-bold text-foreground mb-4"
+                      >
+                        {currentWork.title}
+                      </motion.h3>
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                        className="text-muted-foreground text-lg leading-relaxed"
+                      >
+                        {currentWork.description}
+                      </motion.p>
+                    </div>
+
+                    {/* Stats */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 }}
+                      className="grid grid-cols-3 gap-4"
+                    >
+                      {currentWork.stats.map((stat, index) => (
+                        <motion.div
+                          key={index}
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: 0.7 + index * 0.1, type: "spring" }}
+                          whileHover={{ scale: 1.1, y: -5 }}
+                          className={`p-3 bg-gradient-to-br ${service.gradient} rounded-lg text-center`}
+                        >
+                          <CheckCircle2 className="w-5 h-5 text-white mx-auto mb-1" />
+                          <p className="text-white font-bold text-sm">{stat}</p>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Navigation */}
+              {works.length > 1 && (
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.8 }}
+                  className="flex items-center justify-between mt-8 pt-8 border-t border-border"
+                >
+                  <motion.button
+                    whileHover={{ scale: 1.1, x: -5 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={prevWork}
+                    className="flex items-center gap-2 px-4 py-2 bg-background/50 backdrop-blur-sm rounded-lg border border-border hover:border-primary transition-colors"
+                  >
+                    <ArrowLeft className="w-5 h-5" />
+                    <span className="font-semibold">Previous</span>
+                  </motion.button>
+
+                  <div className="flex gap-2">
+                    {works.map((_, index) => (
+                      <motion.div
+                        key={index}
+                        animate={{
+                          scale: currentIndex === index ? 1.2 : 1,
+                          opacity: currentIndex === index ? 1 : 0.5,
+                        }}
+                        className={`w-2 h-2 rounded-full ${
+                          currentIndex === index ? `bg-gradient-to-r ${service.gradient}` : "bg-muted"
+                        }`}
+                      />
+                    ))}
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.1, x: 5 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={nextWork}
+                    className="flex items-center gap-2 px-4 py-2 bg-background/50 backdrop-blur-sm rounded-lg border border-border hover:border-primary transition-colors"
+                  >
+                    <span className="font-semibold">Next</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </motion.button>
+                </motion.div>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }

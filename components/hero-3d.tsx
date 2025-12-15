@@ -8,6 +8,78 @@ import { useRef, useState } from "react"
 import type * as THREE from "three"
 import { CompanyModal } from "./company-modal"
 
+function NeuralNetwork() {
+  const groupRef = useRef<THREE.Group>(null)
+  const nodes = 30
+
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = state.clock.elapsedTime * 0.05
+    }
+  })
+
+  return (
+    <group ref={groupRef}>
+      {Array.from({ length: nodes }).map((_, i) => {
+        const theta = (i / nodes) * Math.PI * 2
+        const radius = 6 + Math.sin(i * 0.5) * 2
+        const x = Math.cos(theta) * radius
+        const z = Math.sin(theta) * radius
+        const y = Math.sin(i * 0.3) * 3
+
+        return (
+          <Float key={i} speed={1 + Math.random()} rotationIntensity={0.5} floatIntensity={2}>
+            <mesh position={[x, y, z]}>
+              <sphereGeometry args={[0.08, 16, 16]} />
+              <meshStandardMaterial
+                color={i % 3 === 0 ? "#8b5cf6" : i % 3 === 1 ? "#06b6d4" : "#3b82f6"}
+                emissive={i % 3 === 0 ? "#8b5cf6" : i % 3 === 1 ? "#06b6d4" : "#3b82f6"}
+                emissiveIntensity={0.8}
+                metalness={1}
+                roughness={0}
+              />
+            </mesh>
+          </Float>
+        )
+      })}
+    </group>
+  )
+}
+
+function DataStreams() {
+  const linesRef = useRef<THREE.Group>(null)
+
+  useFrame((state) => {
+    if (linesRef.current) {
+      linesRef.current.rotation.z = state.clock.elapsedTime * 0.08
+    }
+  })
+
+  return (
+    <group ref={linesRef}>
+      {Array.from({ length: 8 }).map((_, i) => {
+        const angle = (i / 8) * Math.PI * 2
+        const radius = 7
+        const x = Math.cos(angle) * radius
+        const z = Math.sin(angle) * radius
+
+        return (
+          <mesh key={i} position={[x, 0, z]} rotation={[0, angle, 0]}>
+            <boxGeometry args={[0.05, 12, 0.05]} />
+            <meshStandardMaterial
+              color="#06b6d4"
+              emissive="#06b6d4"
+              emissiveIntensity={0.6}
+              transparent
+              opacity={0.4}
+            />
+          </mesh>
+        )
+      })}
+    </group>
+  )
+}
+
 function ParticleRing() {
   const ringRef = useRef<THREE.Group>(null)
   const particlesCount = 50
@@ -69,6 +141,9 @@ function Scene3D() {
       <pointLight position={[0, 10, 0]} intensity={0.8} color="#3b82f6" />
 
       <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+
+      <NeuralNetwork />
+      <DataStreams />
 
       {/* Central animated sphere */}
       <CentralSphere />
@@ -259,7 +334,6 @@ export function Hero3D() {
       {/* Gradient overlay for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background pointer-events-none" />
 
-      {/* Company Modal */}
       <CompanyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   )

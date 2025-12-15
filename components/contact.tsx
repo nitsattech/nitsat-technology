@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, Phone, MapPin, Send } from "lucide-react"
+import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react"
 import type * as THREE from "three"
 
 function ContactOrb() {
@@ -53,7 +53,7 @@ function Particles() {
   return (
     <points ref={particlesRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} count={particleCount} />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial size={0.05} color="#06b6d4" transparent opacity={0.6} />
     </points>
@@ -68,9 +68,23 @@ export function Contact() {
     message: "",
   })
 
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Form submitted:", formData)
+    console.log("[v0] Contact form data:", {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+      timestamp: new Date().toISOString(),
+    })
+    setIsSubmitted(true)
+    setTimeout(() => {
+      setFormData({ name: "", email: "", phone: "", message: "" })
+      setIsSubmitted(false)
+    }, 3000)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -146,6 +160,27 @@ export function Contact() {
                 transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse" }}
                 className="absolute inset-0 rounded-2xl opacity-20 blur-xl"
               />
+
+              {isSubmitted && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  className="absolute inset-0 z-20 flex items-center justify-center bg-card/95 backdrop-blur-xl rounded-2xl"
+                >
+                  <div className="text-center">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1, rotate: 360 }}
+                      transition={{ type: "spring", duration: 0.6 }}
+                    >
+                      <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-4" />
+                    </motion.div>
+                    <h3 className="text-2xl font-bold text-foreground mb-2">Message Sent!</h3>
+                    <p className="text-muted-foreground">We'll get back to you soon.</p>
+                  </div>
+                </motion.div>
+              )}
 
               <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

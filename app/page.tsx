@@ -1,5 +1,6 @@
 import { Hero3D } from "@/components/hero-3d"
 import { Services } from "@/components/services"
+import { Leadership } from "@/components/leadership"
 import { About } from "@/components/about"
 import { Contact } from "@/components/contact"
 import { Navigation } from "@/components/navigation"
@@ -10,6 +11,7 @@ export default function Home() {
       <Navigation />
       <Hero3D />
       <Services />
+      <Leadership />
       <About />
       <Contact />
     </main>
