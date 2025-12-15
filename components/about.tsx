@@ -112,7 +112,7 @@ export function About() {
               </span>
             </h2>
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              NITSAT TECHNOLOGY is your trusted partner for comprehensive technology solutions. With years of experience
+              NITSAT TECHNOLOGIES is your trusted partner for comprehensive technology solutions. With years of experience
               and a team of certified professionals, we deliver excellence in every project.
             </p>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
@@ -184,7 +184,7 @@ export function About() {
                     className="text-6xl sm:text-7xl lg:text-8xl font-bold mb-4"
                   >
                     <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-400 bg-clip-text text-transparent">
-                      10+
+                      2+
                     </span>
                   </motion.div>
                   <motion.div
@@ -205,7 +205,7 @@ export function About() {
                   </motion.div>
 
                   <div className="mt-8 flex gap-4 justify-center flex-wrap">
-                    {["500+ Projects", "100% Satisfaction", "50+ Clients"].map((stat, i) => (
+                    {["60+ Projects", "100% Satisfaction", "15+ Clients"].map((stat, i) => (
                       <motion.div
                         key={i}
                         initial={{ opacity: 0, scale: 0 }}

@@ -116,8 +116,8 @@ export function Contact() {
 
   const contactInfo = [
     { icon: Mail, title: "Email", value: "contact@nitsat.tech", gradient: "from-purple-500 to-pink-500" },
-    { icon: Phone, title: "Phone", value: "+1 (555) 123-4567", gradient: "from-cyan-500 to-blue-500" },
-    { icon: MapPin, title: "Location", value: "San Francisco, CA", gradient: "from-emerald-500 to-green-500" },
+    { icon: Phone, title: "Phone", value: "+91 (982) 082-7294", gradient: "from-cyan-500 to-blue-500" },
+    { icon: MapPin, title: "Location", value: "Mumbai, India", gradient: "from-emerald-500 to-green-500" },
   ]
 
   return (
@@ -274,7 +274,7 @@ export function Contact() {
                     type="tel"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="+91 111-222-3333"
                     className="bg-background/50 border-border focus:border-primary transition-all duration-300"
                   />
                 </motion.div>
@@ -376,7 +376,7 @@ export function Contact() {
             className="inline-block bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-400 bg-clip-text text-transparent text-sm font-medium"
             style={{ backgroundSize: "200% auto" }}
           >
-            © 2025 NITSAT TECHNOLOGY. All rights reserved.
+            © 2025 NITSAT TECHNOLOGIES. All rights reserved.
           </motion.div>
         </motion.footer>
       </div>

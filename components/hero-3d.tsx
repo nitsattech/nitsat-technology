@@ -300,7 +300,7 @@ export function Hero3D() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 text-balance leading-tight">
             NITSAT{" "}
             <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 animate-gradient bg-clip-text text-transparent">
-              TECHNOLOGY
+              TECHNOLOGIES
             </span>
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 text-pretty max-w-2xl leading-relaxed">

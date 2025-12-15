@@ -41,8 +41,8 @@ const leaders = [
     name: "Neha Mishra",
     role: "CEO & Founder",
     image: "/professional-ceo-male-portrait.jpeg",
-    bio: "Visionary leader with 15+ years in tech innovation. Passionate about transforming businesses through cutting-edge solutions.",
-    achievements: ["Forbes 40 Under 40", "Tech Innovation Award 2024", "Global Leadership Excellence"],
+    bio: "Visionary leader with 5+ years in tech innovation. Passionate about transforming businesses through cutting-edge solutions.",
+    achievements: [ "Tech Innovation Award 2024", "Global Leadership Excellence", "Leadership Medal"],
     linkedin: "#",
     email: "Neha@nitsat.tech",
     gradient: "from-purple-600 via-pink-600 to-red-600",
@@ -100,7 +100,7 @@ export function Leadership() {
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
-            Meet the visionary leaders driving NITSAT TECHNOLOGY forward with passion, expertise, and unwavering
+            Meet the visionary leaders driving NITSAT TECHNOLOGIES forward with passion, expertise, and unwavering
             commitment to excellence.
           </p>
         </motion.div>

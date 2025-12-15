@@ -65,10 +65,10 @@ function FloatingIcosahedron({ position, color }: { position: [number, number, n
 }
 
 const companyStats = [
-  { icon: Users, label: "Happy Clients", value: "500+", color: "from-purple-500 to-purple-700" },
-  { icon: Award, label: "Projects Completed", value: "1000+", color: "from-cyan-500 to-blue-600" },
-  { icon: Globe, label: "Countries Served", value: "25+", color: "from-green-500 to-emerald-600" },
-  { icon: TrendingUp, label: "Years Experience", value: "10+", color: "from-orange-500 to-red-600" },
+  { icon: Users, label: "Happy Clients", value: "15+", color: "from-purple-500 to-purple-700" },
+  { icon: Award, label: "Projects Completed", value: "60+", color: "from-cyan-500 to-blue-600" },
+  { icon: Globe, label: "Countries Served", value: "2+", color: "from-green-500 to-emerald-600" },
+  { icon: TrendingUp, label: "Years Experience", value: "2+", color: "from-orange-500 to-red-600" },
 ]
 
 const coreValues = [
@@ -192,7 +192,7 @@ export function CompanyModal({ isOpen, onClose }: CompanyModalProps) {
                 </motion.div>
                 <h2 className="text-5xl md:text-6xl font-bold mb-4">
                   <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-400 bg-clip-text text-transparent">
-                    NITSAT TECHNOLOGY
+                    NITSAT TECHNOLOGIES
                   </span>
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -302,7 +302,7 @@ export function CompanyModal({ isOpen, onClose }: CompanyModalProps) {
                       </h3>
                       <ul className="space-y-3">
                         {[
-                          "10+ years of proven expertise in diverse technology domains",
+                          "2+ years of proven expertise in diverse technology domains",
                           "24/7 dedicated support team ready to assist you anytime",
                           "Custom-tailored solutions designed for your unique needs",
                           "Cutting-edge technology stack with latest industry standards",

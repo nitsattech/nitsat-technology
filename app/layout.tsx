@@ -7,7 +7,7 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "NITSAT TECHNOLOGY - Tech Support & Solutions",
+  title: "NITSAT TECHNOLOGIES - Tech Support & Solutions",
   description: "Professional technology support and innovative tech solutions for businesses",
   generator: "v0.app",
   icons: {

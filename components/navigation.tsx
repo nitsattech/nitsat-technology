@@ -38,7 +38,7 @@ export function Navigation() {
               <Sparkles className="text-white w-4 h-4" />
             </div>
             <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 animate-gradient bg-clip-text text-transparent">
-              NITSAT TECHNOLOGY
+              NITSAT TECHNOLOGIES
             </span>
           </div>
 
