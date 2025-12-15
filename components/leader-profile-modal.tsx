@@ -99,8 +99,10 @@ export function LeaderProfileModal({ leader, isOpen, onClose }: LeaderProfileMod
 
               {/* Close Button */}
               <button
+                type="button"
+                aria-label="Close profile"
                 onClick={onClose}
-                className="absolute top-6 right-6 z-10 p-2 bg-background/80 hover:bg-background rounded-full transition-colors duration-200 group"
+                className="absolute top-6 right-6 z-[200] p-2 bg-background/80 hover:bg-background rounded-full transition-colors duration-200 group"
               >
                 <X className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
               </button>
