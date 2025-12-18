@@ -4,11 +4,41 @@ import { supabase } from "@/lib/supabase"
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, email, phone, message } = body
+    const { name, email, phone, message, recaptchaToken } = body
 
     // Validate input
     if (!name || !email || !message) {
       return NextResponse.json({ error: "Name, email, and message are required" }, { status: 400 })
+    }
+
+    // If reCAPTCHA secret is configured, verify the token (v2 checkbox)
+    const recaptchaSecret = process.env.RECAPTCHA_SECRET
+    if (recaptchaSecret) {
+      if (!recaptchaToken) {
+        console.error("reCAPTCHA token missing in request body")
+        return NextResponse.json({ error: "reCAPTCHA token missing" }, { status: 400 })
+      }
+
+      try {
+        const params = new URLSearchParams()
+        params.append("secret", recaptchaSecret)
+        params.append("response", recaptchaToken)
+
+        const verifyRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: params.toString(),
+        })
+
+        const verifyJson = await verifyRes.json()
+        if (!verifyJson.success) {
+          console.error("reCAPTCHA verification failed:", verifyJson)
+          return NextResponse.json({ error: "reCAPTCHA verification failed" }, { status: 400 })
+        }
+      } catch (e) {
+        console.error("reCAPTCHA verification error:", e)
+        return NextResponse.json({ error: "reCAPTCHA verification error" }, { status: 500 })
+      }
     }
 
     if (!supabase) {
