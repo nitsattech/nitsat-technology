@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { Float, Sphere, MeshDistortMaterial } from "@react-three/drei"
 import { motion } from "framer-motion"
@@ -71,8 +71,6 @@ export function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
-  const widgetIdRef = useRef<number | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -80,22 +78,12 @@ export function Contact() {
     setError(null)
 
     try {
-      // Ensure reCAPTCHA token exists when site key configured
-      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-      if (siteKey && !recaptchaToken) {
-        setError("Please complete the reCAPTCHA checkbox to verify you are human.")
-        setIsLoading(false)
-        return
-      }
-
-      const payload = { ...formData, recaptchaToken }
-
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(formData),
       })
 
       const result = await response.json()
@@ -116,7 +104,7 @@ export function Contact() {
       setError(err instanceof Error ? err.message : "Failed to send message. Please try again.")
     } finally {
       setIsLoading(false)
-  }
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -125,58 +113,6 @@ export function Contact() {
       [e.target.name]: e.target.value,
     })
   }
-
-  // Load and render reCAPTCHA v2 checkbox if site key is provided
-  useEffect(() => {
-    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-    if (!siteKey) return
-
-    // Load the v2 script if not already loaded
-    const existing = document.querySelector("script[src*='recaptcha']")
-    if (!existing) {
-      const s = document.createElement("script")
-      s.src = "https://www.google.com/recaptcha/api.js"
-      s.async = true
-      s.defer = true
-      document.head.appendChild(s)
-    }
-
-    // render widget after script loads
-    const renderWidget = () => {
-      try {
-        if (!(window as any).grecaptcha) return
-        const el = document.getElementById("recaptcha-widget")
-        if (!el) return
-        // avoid double-render
-        if (widgetIdRef.current !== null) return
-        widgetIdRef.current = (window as any).grecaptcha.render(el, {
-          sitekey: siteKey,
-          callback: (token: string) => {
-            setRecaptchaToken(token)
-            setError(null)
-          },
-          "expired-callback": () => {
-            setRecaptchaToken(null)
-          },
-        })
-      } catch (e) {
-        // ignore
-      }
-    }
-
-    if ((window as any).grecaptcha) {
-      renderWidget()
-    } else {
-      const onLoad = () => renderWidget()
-      window.addEventListener("load", onLoad)
-      // also try after short delay
-      const t = setTimeout(renderWidget, 1000)
-      return () => {
-        window.removeEventListener("load", onLoad)
-        clearTimeout(t)
-      }
-    }
-  }, [])
 
   const contactInfo = [
     { icon: Mail, title: "Email", value: "contact@nitsat.tech", gradient: "from-purple-500 to-pink-500" },
@@ -371,13 +307,10 @@ export function Contact() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.5 }}
                 >
-                  {/* reCAPTCHA v2 checkbox will render into this div if NEXT_PUBLIC_RECAPTCHA_SITE_KEY is set */}
-                  <div id="recaptcha-widget" className="mb-4" />
-
                   <Button
                     type="submit"
                     size="lg"
-                    disabled={isLoading || (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? !recaptchaToken : false)}
+                    disabled={isLoading}
                     className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-semibold shadow-lg hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span>{isLoading ? "Sending..." : "Send Message"}</span>
