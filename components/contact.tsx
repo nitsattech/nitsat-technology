@@ -129,38 +129,27 @@ export function Contact() {
   // Load and render reCAPTCHA v2 checkbox if site key is provided
   useEffect(() => {
     const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-    if (!siteKey || typeof siteKey !== "string" || siteKey.trim().length < 10) {
-      // No valid site key configured; skip loading recaptcha to avoid runtime errors
-      console.info("reCAPTCHA site key missing or invalid; skipping widget render")
-      return
-    }
+    if (!siteKey) return
 
     // Load the v2 script if not already loaded
-    try {
-      const existing = document.querySelector("script[src*='recaptcha']")
-      if (!existing) {
-        const s = document.createElement("script")
-        s.src = "https://www.google.com/recaptcha/api.js"
-        s.async = true
-        s.defer = true
-        document.head.appendChild(s)
-      }
-    } catch (e) {
-      console.error("Failed to append reCAPTCHA script:", e)
-      return
+    const existing = document.querySelector("script[src*='recaptcha']")
+    if (!existing) {
+      const s = document.createElement("script")
+      s.src = "https://www.google.com/recaptcha/api.js"
+      s.async = true
+      s.defer = true
+      document.head.appendChild(s)
     }
 
     // render widget after script loads
     const renderWidget = () => {
       try {
-        const grecaptcha = (window as any).grecaptcha
-        if (!grecaptcha || typeof grecaptcha.render !== "function") return
+        if (!(window as any).grecaptcha) return
         const el = document.getElementById("recaptcha-widget")
         if (!el) return
         // avoid double-render
         if (widgetIdRef.current !== null) return
-
-        widgetIdRef.current = grecaptcha.render(el, {
+        widgetIdRef.current = (window as any).grecaptcha.render(el, {
           sitekey: siteKey,
           callback: (token: string) => {
             setRecaptchaToken(token)
@@ -171,11 +160,11 @@ export function Contact() {
           },
         })
       } catch (e) {
-        console.error("Error rendering reCAPTCHA widget:", e)
+        // ignore
       }
     }
 
-    if ((window as any).grecaptcha && typeof (window as any).grecaptcha.render === "function") {
+    if ((window as any).grecaptcha) {
       renderWidget()
     } else {
       const onLoad = () => renderWidget()
