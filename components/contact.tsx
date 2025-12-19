@@ -32,7 +32,7 @@ function ContactOrb() {
     </Float>
   )
 }
-// single check comment 
+
 function Particles() {
   const particlesRef = useRef<THREE.Points>(null)
   const particleCount = 100
