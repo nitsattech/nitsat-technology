@@ -115,7 +115,7 @@ export function Contact() {
   }
 
   const contactInfo = [
-    { icon: Mail, title: "Email", value: "contact@nitsat.tech", gradient: "from-purple-500 to-pink-500" },
+    { icon: Mail, title: "Email", value: "info@nitsattech.com", gradient: "from-purple-500 to-pink-500" },
     { icon: Phone, title: "Phone", value: "+91 (982) 082-7294", gradient: "from-cyan-500 to-blue-500" },
     { icon: MapPin, title: "Location", value: "Mumbai, India", gradient: "from-emerald-500 to-green-500" },
   ]
