@@ -1,12 +1,6 @@
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
 
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-});
+export const runtime = "edge"; // edge is fine with fetch
 
 export async function POST(req: Request) {
   try {
@@ -16,25 +10,40 @@ export async function POST(req: Request) {
       return NextResponse.json({ reply: "Message missing" });
     }
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a helpful AI assistant for the Nitsat Technology website. Answer clearly and professionally about services, company info, and general questions. If you don't know the answer, respond with 'I'm not sure about that.",
-        },
-        { role: "user", content: message },
-      ],
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are Nitsat AI Assistant. Help users professionally with services and company information.",
+          },
+          { role: "user", content: message },
+        ],
+      }),
     });
 
+    if (!response.ok) {
+      const err = await response.text();
+      console.error("OpenAI API Error:", err);
+      throw new Error("OpenAI request failed");
+    }
+
+    const data = await response.json();
+
     return NextResponse.json({
-      reply: response.choices[0].message.content,
+      reply: data.choices[0].message.content,
     });
-  } catch (error: any) {
-    console.error("OPENAI PROD ERROR:", error?.message || error);
+  } catch (error) {
+    console.error("CHAT API ERROR:", error);
     return NextResponse.json(
-      { reply: "AI service temporarily unavailable." },
+      { reply: "Something went wrong. Please try again." },
       { status: 500 }
     );
   }
