@@ -22,7 +22,7 @@ export async function POST(req: Request) {
         {
           role: "system",
           content:
-            "You are Nitsat AI Assistant. Help users professionally with services and general queries.",
+            "You are a helpful AI assistant for the Nitsat Technology website. Answer clearly and professionally about services, company info, and general questions. If you don't know the answer, respond with 'I'm not sure about that.",
         },
         { role: "user", content: message },
       ],
