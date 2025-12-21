@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Sparkles, Home, Briefcase, Info, Mail, Users } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import Link from "next/link"
+
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -42,12 +44,13 @@ export function Navigation() {
   }
 
   const navItems = [
-    { id: "home", label: "Home", icon: Home },
-    { id: "services", label: "Services", icon: Briefcase },
-    { id: "team", label: "Team", icon: Users },
-    { id: "about", label: "About", icon: Info },
-    { id: "contact", label: "Contact", icon: Mail },
-  ]
+  { id: "home", label: "Home", icon: Home, type: "scroll" },
+  { label: "Services", icon: Briefcase, type: "link", href: "/services" },
+  { id: "team", label: "Team", icon: Users, type: "scroll" },
+  { id: "about", label: "About", icon: Info, type: "scroll" },
+  { id: "contact", label: "Contact", icon: Mail, type: "scroll" },
+]
+
 
   return (
     <nav
@@ -77,46 +80,51 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             {navItems.map((item, index) => {
-              const Icon = item.icon
-              const isActive = activeSection === item.id
+  const Icon = item.icon
 
-              return (
-                <motion.button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group ${
-                    isActive
-                      ? "text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text"
-                      : "text-muted-foreground hover:text-transparent hover:bg-gradient-to-r hover:from-purple-400 hover:to-cyan-400 hover:bg-clip-text"
-                  }`}
-                >
-                  <span className="flex items-center gap-2">
-                    <Icon
-                      className={`w-4 h-4 transition-all duration-300 ${
-                        isActive ? "text-purple-400" : "text-muted-foreground group-hover:text-cyan-400"
-                      }`}
-                    />
-                    {item.label}
-                  </span>
+  // 👉 LINK TYPE (Services)
+  if (item.type === "link") {
+    return (
+      <Link key={item.label} href={item.href!}>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.1 }}
+          whileHover={{ scale: 1.05, y: -2 }}
+          className="px-4 py-2 text-sm font-medium rounded-lg text-muted-foreground hover:text-transparent hover:bg-gradient-to-r hover:from-purple-400 hover:to-cyan-400 hover:bg-clip-text flex items-center gap-2 cursor-pointer"
+        >
+          <Icon className="w-4 h-4" />
+          {item.label}
+        </motion.div>
+      </Link>
+    )
+  }
 
-                  {/* Animated underline */}
-                  <motion.span
-                    className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: isActive ? "100%" : 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
+  // 👉 SCROLL TYPE
+  const isActive = activeSection === item.id
 
-                  {/* Hover glow effect */}
-                  <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-400/0 via-blue-400/0 to-cyan-400/0 group-hover:from-purple-400/10 group-hover:via-blue-400/10 group-hover:to-cyan-400/10 transition-all duration-300 -z-10" />
-                </motion.button>
-              )
-            })}
+  return (
+    <motion.button
+      key={item.id}
+      onClick={() => scrollToSection(item.id!)}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ scale: 1.05, y: -2 }}
+      className={`px-4 py-2 text-sm font-medium rounded-lg ${
+        isActive
+          ? "text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text"
+          : "text-muted-foreground hover:text-transparent hover:bg-gradient-to-r hover:from-purple-400 hover:to-cyan-400 hover:bg-clip-text"
+      }`}
+    >
+      <span className="flex items-center gap-2">
+        <Icon className="w-4 h-4" />
+        {item.label}
+      </span>
+    </motion.button>
+  )
+})}
+
 
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -174,56 +182,86 @@ export function Navigation() {
         </div>
 
         {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              className="md:hidden py-4 border-t border-border"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="flex flex-col gap-2">
-                {navItems.map((item, index) => {
-                  const Icon = item.icon
-                  const isActive = activeSection === item.id
+       {/* Mobile Menu */}
+<AnimatePresence>
+  {isMobileMenuOpen && (
+    <motion.div
+      className="md:hidden py-4 border-t border-border"
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: "auto", opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="flex flex-col gap-2">
+        {navItems.map((item, index) => {
+          const Icon = item.icon
+          const isActive = item.type === "scroll" && activeSection === item.id
 
-                  return (
-                    <motion.button
-                      key={item.id}
-                      onClick={() => scrollToSection(item.id)}
-                      initial={{ x: -20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ duration: 0.3, delay: index * 0.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-300 ${
-                        isActive
-                          ? "bg-gradient-to-r from-purple-500/20 to-cyan-500/20 text-transparent bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text"
-                          : "text-muted-foreground hover:bg-purple-500/10 hover:text-foreground"
-                      }`}
-                    >
-                      <Icon className={`w-5 h-5 ${isActive ? "text-purple-400" : ""}`} />
-                      <span className="font-medium">{item.label}</span>
-                    </motion.button>
-                  )
-                })}
+          // 👉 LINK TYPE (Services)
+          if (item.type === "link") {
+            return (
+              <Link
+                key={item.label}
+                href={item.href!}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 <motion.div
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.3, delay: 0.4 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-300 text-muted-foreground hover:bg-purple-500/10 hover:text-foreground"
                 >
-                  <Button
-                    onClick={() => scrollToSection("contact")}
-                    className="w-full mt-2 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 animate-gradient hover:shadow-lg hover:shadow-purple-500/50"
-                  >
-                    <Mail className="mr-2 w-4 h-4" />
-                    Get Started
-                  </Button>
+                  <Icon className="w-5 h-5" />
+                  <span className="font-medium">{item.label}</span>
                 </motion.div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </Link>
+            )
+          }
+
+          // 👉 SCROLL TYPE
+          return (
+            <motion.button
+              key={item.id}
+              onClick={() => scrollToSection(item.id!)}
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+              whileTap={{ scale: 0.95 }}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-300 ${
+                isActive
+                  ? "bg-gradient-to-r from-purple-500/20 to-cyan-500/20 text-transparent bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text"
+                  : "text-muted-foreground hover:bg-purple-500/10 hover:text-foreground"
+              }`}
+            >
+              <Icon className={`w-5 h-5 ${isActive ? "text-purple-400" : ""}`} />
+              <span className="font-medium">{item.label}</span>
+            </motion.button>
+          )
+        })}
+
+        {/* CTA BUTTON */}
+        <motion.div
+          initial={{ x: -20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.4 }}
+        >
+          <Button
+            onClick={() => {
+              scrollToSection("contact")
+              setIsMobileMenuOpen(false)
+            }}
+            className="w-full mt-2 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 animate-gradient hover:shadow-lg hover:shadow-purple-500/50"
+          >
+            <Mail className="mr-2 w-4 h-4" />
+            Get Started
+          </Button>
+        </motion.div>
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
       </div>
     </nav>
   )
