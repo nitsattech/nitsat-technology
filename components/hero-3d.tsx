@@ -297,14 +297,14 @@ export function Hero3D() {
       </div>
 
       {/* Content Overlay */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-        <div className="max-w-3xl">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center pt-20 sm:pt-24">
+        <div className="max-w-4xl">
           <div className="inline-block px-3 py-1 mb-6 text-xs font-medium bg-gradient-to-r from-sky-500/20 to-emerald-500/20 text-transparent bg-clip-text rounded-full border border-sky-400/30 animate-glow">
             <span className="bg-gradient-to-r from-sky-300 to-emerald-300 bg-clip-text text-transparent">
               Healthcare Product Platform
             </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 text-balance leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[4.2rem] font-bold text-foreground mb-6 text-balance leading-tight">
             Building Advanced Hospital Management Systems (HMS) for Digital Healthcare in India
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 text-pretty max-w-2xl leading-relaxed">
