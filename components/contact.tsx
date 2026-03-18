@@ -150,12 +150,13 @@ export function Contact() {
             💬 Get In Touch
           </motion.div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 text-balance">
-            <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-400 bg-clip-text text-transparent">
-              Let's Build Something Great
+            <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent">
+              Let&apos;s Build Smarter Healthcare Systems
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
-            Ready to transform your business with cutting-edge technology? Contact us today for a consultation.
+            Partner with us to deploy ABDM-ready HMS workflows, ABHA-linked registration, and secure digital health
+            records.
           </p>
         </motion.div>
 
@@ -197,7 +198,7 @@ export function Contact() {
                       <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-4" />
                     </motion.div>
                     <h3 className="text-2xl font-bold text-foreground mb-2">Message Sent!</h3>
-                    <p className="text-muted-foreground">We'll get back to you soon.</p>
+                    <p className="text-muted-foreground">We&apos;ll get back to you soon.</p>
                   </div>
                 </motion.div>
               )}
@@ -378,6 +379,9 @@ export function Contact() {
           >
             © 2025 NITSAT TECHNOLOGIES. All rights reserved.
           </motion.div>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Focused on building digital healthcare infrastructure aligned with Ayushman Bharat Digital Mission (ABDM).
+          </p>
         </motion.footer>
       </div>
     </section>
