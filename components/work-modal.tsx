@@ -22,6 +22,24 @@ interface WorkModalProps {
 
 // Sample portfolio items - you can customize these
 const portfolioWork = {
+  "Healthcare HMS Solutions": [
+    {
+      title: "ABDM-Ready Hospital Deployment",
+      client: "Multi-Speciality Hospital Group",
+      description:
+        "Implemented HMS modules for OPD, IPD, billing, and discharge workflows with ABHA-linked registration support.",
+      stats: ["ABDM Aligned", "ABHA Linked", "End-to-End HMS"],
+      image: "/modern-crm-software-interface.jpg",
+    },
+    {
+      title: "Digital Patient Record Rollout",
+      client: "Regional Care Network",
+      description:
+        "Digitized patient records and enabled secure health data exchange workflows for better care continuity.",
+      stats: ["Digital Records", "Secure Exchange", "Faster Turnaround"],
+      image: "/data-encryption-security.jpg",
+    },
+  ],
   "Tech Support": [
     {
       title: "Enterprise IT Infrastructure",

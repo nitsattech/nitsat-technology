@@ -62,10 +62,10 @@ function FloatingSpheres() {
 }
 
 const features = [
-  { icon: Zap, text: "24/7 Technical Support", color: "from-yellow-400 to-orange-500" },
-  { icon: Users, text: "Certified Professionals", color: "from-blue-400 to-cyan-500" },
-  { icon: Target, text: "Cutting-Edge Solutions", color: "from-purple-400 to-pink-500" },
-  { icon: Award, text: "Proven Track Record", color: "from-green-400 to-emerald-500" },
+  { icon: Zap, text: "Healthcare Workflow Expertise", color: "from-sky-400 to-cyan-500" },
+  { icon: Users, text: "Hospital Operations Focus", color: "from-blue-400 to-sky-500" },
+  { icon: Target, text: "ABDM-Aligned Product Vision", color: "from-emerald-400 to-teal-500" },
+  { icon: Award, text: "Secure Health Data Standards", color: "from-green-400 to-emerald-500" },
 ]
 
 export function About() {
@@ -104,20 +104,19 @@ export function About() {
               transition={{ type: "spring", stiffness: 200 }}
               className="inline-block px-4 py-2 mb-4 text-xs font-medium bg-gradient-to-r from-purple-500/20 to-cyan-500/20 text-primary rounded-full border border-primary/30 backdrop-blur-sm"
             >
-              ⚡ About Us
+              ⚕ About Us
             </motion.div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6 text-balance">
-              <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-400 bg-clip-text text-transparent">
-                Driving Innovation Through Technology
+              <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent">
+                Building the Future of Connected Healthcare
               </span>
             </h2>
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              NITSAT TECHNOLOGIES is your trusted partner for comprehensive technology solutions. With years of experience
-              and a team of certified professionals, we deliver excellence in every project.
+              NITSAT TECHNOLOGIES is building digital products for hospitals and care providers. Our flagship platform is
+              designed to streamline day-to-day clinical and administrative operations through a unified HMS.
             </p>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Our mission is to empower businesses with innovative technology solutions that drive growth, efficiency,
-              and digital transformation.
+              We are building ABDM-compliant healthcare solutions aligned with India&apos;s digital health ecosystem.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

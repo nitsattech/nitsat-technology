@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Sparkles, Home, Briefcase, Info, Mail, Users } from "lucide-react"
+import { Menu, X, HeartPulse, Home, Briefcase, Info, Mail, Users, Box } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export function Navigation() {
@@ -14,7 +14,7 @@ export function Navigation() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
 
-      const sections = ["home", "services", "team", "about", "contact"]
+      const sections = ["home", "hms-solution", "services", "product", "team", "about", "contact"]
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -43,7 +43,9 @@ export function Navigation() {
 
   const navItems = [
     { id: "home", label: "Home", icon: Home },
+    { id: "hms-solution", label: "HMS Solution", icon: HeartPulse },
     { id: "services", label: "Services", icon: Briefcase },
+    { id: "product", label: "Our Product", icon: Box },
     { id: "team", label: "Team", icon: Users },
     { id: "about", label: "About", icon: Info },
     { id: "contact", label: "Contact", icon: Mail },
@@ -66,10 +68,10 @@ export function Navigation() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 animate-gradient rounded-lg flex items-center justify-center animate-glow shadow-lg shadow-purple-500/50">
-              <Sparkles className="text-white w-4 h-4 animate-pulse" />
+            <div className="w-8 h-8 bg-gradient-to-br from-sky-500 via-cyan-500 to-emerald-500 animate-gradient rounded-lg flex items-center justify-center animate-glow shadow-lg shadow-sky-500/50">
+              <HeartPulse className="text-white w-4 h-4 animate-pulse" />
             </div>
-            <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 animate-gradient bg-clip-text text-transparent">
+            <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-sky-300 via-cyan-300 to-emerald-300 animate-gradient bg-clip-text text-transparent">
               NITSAT TECHNOLOGIES
             </span>
           </motion.div>
@@ -91,14 +93,14 @@ export function Navigation() {
                   whileTap={{ scale: 0.95 }}
                   className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group ${
                     isActive
-                      ? "text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text"
-                      : "text-muted-foreground hover:text-transparent hover:bg-gradient-to-r hover:from-purple-400 hover:to-cyan-400 hover:bg-clip-text"
+                      ? "text-transparent bg-gradient-to-r from-sky-300 via-cyan-300 to-emerald-300 bg-clip-text"
+                      : "text-muted-foreground hover:text-transparent hover:bg-gradient-to-r hover:from-sky-300 hover:to-emerald-300 hover:bg-clip-text"
                   }`}
                 >
                   <span className="flex items-center gap-2">
                     <Icon
                       className={`w-4 h-4 transition-all duration-300 ${
-                        isActive ? "text-purple-400" : "text-muted-foreground group-hover:text-cyan-400"
+                        isActive ? "text-sky-300" : "text-muted-foreground group-hover:text-emerald-300"
                       }`}
                     />
                     {item.label}
@@ -106,14 +108,14 @@ export function Navigation() {
 
                   {/* Animated underline */}
                   <motion.span
-                    className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 rounded-full"
+                    className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-sky-300 via-cyan-300 to-emerald-300 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: isActive ? "100%" : 0 }}
                     transition={{ duration: 0.3 }}
                   />
 
                   {/* Hover glow effect */}
-                  <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-400/0 via-blue-400/0 to-cyan-400/0 group-hover:from-purple-400/10 group-hover:via-blue-400/10 group-hover:to-cyan-400/10 transition-all duration-300 -z-10" />
+                  <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-sky-400/0 via-cyan-400/0 to-emerald-400/0 group-hover:from-sky-400/10 group-hover:via-cyan-400/10 group-hover:to-emerald-400/10 transition-all duration-300 -z-10" />
                 </motion.button>
               )
             })}
