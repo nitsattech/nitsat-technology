@@ -16,7 +16,7 @@ const hmsCapabilities = [
 
 export function HealthcareHmsSolution() {
   return (
-    <section id="hms-solution" className="py-20 sm:py-24 lg:py-28 bg-secondary/20 relative overflow-hidden">
+    <section id="hms-solution" className="mt-16 sm:mt-24 py-20 sm:py-24 lg:py-28 bg-secondary/20 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-emerald-500/10 pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

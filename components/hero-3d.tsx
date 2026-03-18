@@ -288,7 +288,7 @@ export function Hero3D() {
   }
 
   return (
-    <section id="home" className="relative w-full h-screen overflow-hidden">
+    <section id="home" className="relative w-full min-h-screen overflow-hidden pb-24 sm:pb-32">
       {/* 3D Canvas Background */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
@@ -297,14 +297,14 @@ export function Hero3D() {
       </div>
 
       {/* Content Overlay */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center pt-20 sm:pt-24">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center pt-20 sm:pt-24">
         <div className="max-w-4xl">
           <div className="inline-block px-3 py-1 mb-6 text-xs font-medium bg-gradient-to-r from-sky-500/20 to-emerald-500/20 text-transparent bg-clip-text rounded-full border border-sky-400/30 animate-glow">
             <span className="bg-gradient-to-r from-sky-300 to-emerald-300 bg-clip-text text-transparent">
               Healthcare Product Platform
             </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[4.2rem] font-bold text-foreground mb-6 text-balance leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6 text-balance leading-snug">
             Building Advanced Hospital Management Systems (HMS) for Digital Healthcare in India
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 text-pretty max-w-2xl leading-relaxed">
@@ -322,7 +322,7 @@ export function Hero3D() {
               </div>
             ))}
           </div>
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row gap-4">
             <Button
               size="lg"
               onClick={scrollToContact}
