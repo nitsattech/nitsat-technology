@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Float, Environment, MeshDistortMaterial, Stars } from "@react-three/drei"
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, BadgeCheck } from "lucide-react"
 import { useRef, useState } from "react"
 import type * as THREE from "three"
 import { CompanyModal } from "./company-modal"
@@ -32,8 +32,8 @@ function NeuralNetwork() {
             <mesh position={[x, y, z]}>
               <sphereGeometry args={[0.08, 16, 16]} />
               <meshStandardMaterial
-                color={i % 3 === 0 ? "#8b5cf6" : i % 3 === 1 ? "#06b6d4" : "#3b82f6"}
-                emissive={i % 3 === 0 ? "#8b5cf6" : i % 3 === 1 ? "#06b6d4" : "#3b82f6"}
+                color={i % 3 === 0 ? "#0ea5e9" : i % 3 === 1 ? "#10b981" : "#38bdf8"}
+                emissive={i % 3 === 0 ? "#0ea5e9" : i % 3 === 1 ? "#10b981" : "#38bdf8"}
                 emissiveIntensity={0.8}
                 metalness={1}
                 roughness={0}
@@ -67,8 +67,8 @@ function DataStreams() {
           <mesh key={i} position={[x, 0, z]} rotation={[0, angle, 0]}>
             <boxGeometry args={[0.05, 12, 0.05]} />
             <meshStandardMaterial
-              color="#06b6d4"
-              emissive="#06b6d4"
+              color="#0ea5e9"
+              emissive="#0ea5e9"
               emissiveIntensity={0.6}
               transparent
               opacity={0.4}
@@ -102,8 +102,8 @@ function ParticleRing() {
           <mesh key={i} position={[x, y, 0]}>
             <sphereGeometry args={[0.05, 8, 8]} />
             <meshStandardMaterial
-              color={i % 3 === 0 ? "#8b5cf6" : i % 3 === 1 ? "#06b6d4" : "#3b82f6"}
-              emissive={i % 3 === 0 ? "#8b5cf6" : i % 3 === 1 ? "#06b6d4" : "#3b82f6"}
+              color={i % 3 === 0 ? "#0ea5e9" : i % 3 === 1 ? "#10b981" : "#38bdf8"}
+              emissive={i % 3 === 0 ? "#0ea5e9" : i % 3 === 1 ? "#10b981" : "#38bdf8"}
               emissiveIntensity={0.5}
             />
           </mesh>
@@ -126,7 +126,7 @@ function CentralSphere() {
   return (
     <mesh ref={meshRef}>
       <icosahedronGeometry args={[1.5, 1]} />
-      <MeshDistortMaterial color="#8b5cf6" attach="material" distort={0.5} speed={2} roughness={0.2} metalness={0.8} />
+      <MeshDistortMaterial color="#0ea5e9" attach="material" distort={0.5} speed={2} roughness={0.2} metalness={0.8} />
     </mesh>
   )
 }
@@ -136,9 +136,9 @@ function Scene3D() {
     <>
       <ambientLight intensity={0.3} />
       <directionalLight position={[10, 10, 5]} intensity={1.5} color="#ffffff" />
-      <pointLight position={[-10, -10, -5]} intensity={1} color="#8b5cf6" />
-      <pointLight position={[10, -10, 5]} intensity={1} color="#06b6d4" />
-      <pointLight position={[0, 10, 0]} intensity={0.8} color="#3b82f6" />
+      <pointLight position={[-10, -10, -5]} intensity={1} color="#0ea5e9" />
+      <pointLight position={[10, -10, 5]} intensity={1} color="#10b981" />
+      <pointLight position={[0, 10, 0]} intensity={0.8} color="#38bdf8" />
 
       <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
 
@@ -156,70 +156,6 @@ function Scene3D() {
         <mesh position={[-3, 1, -2]}>
           <boxGeometry args={[1, 1, 1]} />
           <MeshDistortMaterial
-            color="#8b5cf6"
-            speed={2}
-            distort={0.4}
-            radius={1}
-            metalness={0.9}
-            roughness={0.1}
-            emissive="#8b5cf6"
-            emissiveIntensity={0.3}
-          />
-        </mesh>
-      </Float>
-
-      <Float speed={2} rotationIntensity={1.5} floatIntensity={1.5}>
-        <mesh position={[3, -1, -1]}>
-          <torusGeometry args={[0.6, 0.3, 16, 100]} />
-          <MeshDistortMaterial
-            color="#06b6d4"
-            speed={2}
-            distort={0.4}
-            radius={1}
-            metalness={0.9}
-            roughness={0.1}
-            emissive="#06b6d4"
-            emissiveIntensity={0.3}
-          />
-        </mesh>
-      </Float>
-
-      <Float speed={1.8} rotationIntensity={0.8} floatIntensity={2.5}>
-        <mesh position={[0, 2, -3]}>
-          <octahedronGeometry args={[0.8]} />
-          <MeshDistortMaterial
-            color="#3b82f6"
-            speed={2}
-            distort={0.5}
-            radius={1}
-            metalness={0.9}
-            roughness={0.1}
-            emissive="#3b82f6"
-            emissiveIntensity={0.3}
-          />
-        </mesh>
-      </Float>
-
-      <Float speed={2.2} rotationIntensity={1.2} floatIntensity={1.8}>
-        <mesh position={[-2, -2, 0]}>
-          <sphereGeometry args={[0.5, 32, 32]} />
-          <MeshDistortMaterial
-            color="#a78bfa"
-            speed={2}
-            distort={0.3}
-            radius={1}
-            metalness={0.9}
-            roughness={0.1}
-            emissive="#a78bfa"
-            emissiveIntensity={0.3}
-          />
-        </mesh>
-      </Float>
-
-      <Float speed={1.6} rotationIntensity={1} floatIntensity={2.2}>
-        <mesh position={[2.5, 1.5, -2]}>
-          <coneGeometry args={[0.5, 1, 32]} />
-          <MeshDistortMaterial
             color="#0ea5e9"
             speed={2}
             distort={0.4}
@@ -232,17 +168,81 @@ function Scene3D() {
         </mesh>
       </Float>
 
+      <Float speed={2} rotationIntensity={1.5} floatIntensity={1.5}>
+        <mesh position={[3, -1, -1]}>
+          <torusGeometry args={[0.6, 0.3, 16, 100]} />
+          <MeshDistortMaterial
+            color="#10b981"
+            speed={2}
+            distort={0.4}
+            radius={1}
+            metalness={0.9}
+            roughness={0.1}
+            emissive="#10b981"
+            emissiveIntensity={0.3}
+          />
+        </mesh>
+      </Float>
+
+      <Float speed={1.8} rotationIntensity={0.8} floatIntensity={2.5}>
+        <mesh position={[0, 2, -3]}>
+          <octahedronGeometry args={[0.8]} />
+          <MeshDistortMaterial
+            color="#38bdf8"
+            speed={2}
+            distort={0.5}
+            radius={1}
+            metalness={0.9}
+            roughness={0.1}
+            emissive="#38bdf8"
+            emissiveIntensity={0.3}
+          />
+        </mesh>
+      </Float>
+
+      <Float speed={2.2} rotationIntensity={1.2} floatIntensity={1.8}>
+        <mesh position={[-2, -2, 0]}>
+          <sphereGeometry args={[0.5, 32, 32]} />
+          <MeshDistortMaterial
+            color="#0284c7"
+            speed={2}
+            distort={0.3}
+            radius={1}
+            metalness={0.9}
+            roughness={0.1}
+            emissive="#0284c7"
+            emissiveIntensity={0.3}
+          />
+        </mesh>
+      </Float>
+
+      <Float speed={1.6} rotationIntensity={1} floatIntensity={2.2}>
+        <mesh position={[2.5, 1.5, -2]}>
+          <coneGeometry args={[0.5, 1, 32]} />
+          <MeshDistortMaterial
+            color="#2dd4bf"
+            speed={2}
+            distort={0.4}
+            radius={1}
+            metalness={0.9}
+            roughness={0.1}
+            emissive="#2dd4bf"
+            emissiveIntensity={0.3}
+          />
+        </mesh>
+      </Float>
+
       <Float speed={1.9} rotationIntensity={1.3} floatIntensity={2.1}>
         <mesh position={[-1.5, 0.5, 1]}>
           <dodecahedronGeometry args={[0.6]} />
           <MeshDistortMaterial
-            color="#ec4899"
+            color="#059669"
             speed={2}
             distort={0.35}
             radius={1}
             metalness={0.9}
             roughness={0.1}
-            emissive="#ec4899"
+            emissive="#059669"
             emissiveIntensity={0.3}
           />
         </mesh>
@@ -252,13 +252,13 @@ function Scene3D() {
         <mesh position={[1, -1.5, -0.5]}>
           <tetrahedronGeometry args={[0.7]} />
           <MeshDistortMaterial
-            color="#14b8a6"
+            color="#0369a1"
             speed={2}
             distort={0.45}
             radius={1}
             metalness={0.9}
             roughness={0.1}
-            emissive="#14b8a6"
+            emissive="#0369a1"
             emissiveIntensity={0.3}
           />
         </mesh>
@@ -288,7 +288,7 @@ export function Hero3D() {
   }
 
   return (
-    <section id="home" className="relative w-full h-screen overflow-hidden">
+    <section id="home" className="relative w-full min-h-screen overflow-hidden pb-24 sm:pb-32">
       {/* 3D Canvas Background */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
@@ -297,43 +297,52 @@ export function Hero3D() {
       </div>
 
       {/* Content Overlay */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-        <div className="max-w-3xl">
-          <div className="inline-block px-3 py-1 mb-6 text-xs font-medium bg-gradient-to-r from-purple-500/20 to-cyan-500/20 text-transparent bg-clip-text rounded-full border border-purple-500/30 animate-glow">
-            <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-              Innovation in Technology
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center pt-20 sm:pt-24">
+        <div className="max-w-4xl">
+          <div className="inline-block px-3 py-1 mb-6 text-xs font-medium bg-gradient-to-r from-sky-500/20 to-emerald-500/20 text-transparent bg-clip-text rounded-full border border-sky-400/30 animate-glow">
+            <span className="bg-gradient-to-r from-sky-300 to-emerald-300 bg-clip-text text-transparent">
+              Healthcare Product Platform
             </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 text-balance leading-tight">
-            NITSAT{" "}
-            <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 animate-gradient bg-clip-text text-transparent">
-              TECHNOLOGIES
-            </span>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6 text-balance leading-snug">
+            Building Advanced Hospital Management Systems (HMS) for Digital Healthcare in India
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 text-pretty max-w-2xl leading-relaxed">
-            Empowering businesses with cutting-edge technology support and innovative solutions for a digital future.
+            ABDM-compliant healthcare software with ABHA integration, OPD/IPD management, billing, and digital patient
+            records.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-wrap gap-3 mb-8">
+            {["ABDM Ready", "ABHA Integration Supported", "Secure Health Data Handling"].map((badge) => (
+              <div
+                key={badge}
+                className="px-3 py-1.5 text-sm rounded-full border border-sky-400/40 bg-gradient-to-r from-sky-500/15 to-emerald-500/15 text-foreground flex items-center gap-2"
+              >
+                <BadgeCheck className="w-4 h-4 text-emerald-400" />
+                {badge}
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-col sm:flex-row gap-4">
             <Button
               size="lg"
               onClick={scrollToContact}
-              className="text-base group relative overflow-hidden bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 animate-gradient hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-500 hover:scale-110 hover:rotate-1"
+              className="text-base group relative overflow-hidden bg-gradient-to-r from-sky-600 via-cyan-600 to-emerald-600 animate-gradient hover:shadow-2xl hover:shadow-sky-500/50 transition-all duration-500 hover:scale-110 hover:rotate-1"
             >
               <span className="relative z-10 flex items-center">
                 Get Started
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:scale-125 transition-all duration-300" />
               </span>
-              <span className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient" />
-              <span className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-600 blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500" />
+              <span className="absolute inset-0 bg-gradient-to-r from-emerald-600 via-cyan-600 to-sky-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient" />
+              <span className="absolute -inset-1 bg-gradient-to-r from-sky-600 to-emerald-600 blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500" />
             </Button>
             <Button
               size="lg"
               variant="outline"
               onClick={() => setIsModalOpen(true)}
-              className="text-base relative overflow-hidden bg-transparent border-2 border-purple-500/50 hover:bg-purple-500/10 hover:border-cyan-500/50 hover:scale-105 hover:-rotate-1 transition-all duration-500 group"
+              className="text-base relative overflow-hidden bg-transparent border-2 border-sky-500/50 hover:bg-sky-500/10 hover:border-emerald-500/50 hover:scale-105 hover:-rotate-1 transition-all duration-500 group"
             >
               <span className="relative z-10">Learn More</span>
-              <span className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+              <span className="absolute inset-0 bg-gradient-to-r from-sky-500/20 to-emerald-500/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             </Button>
           </div>
         </div>

@@ -4,9 +4,10 @@ import { useRef, useState } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { Float, MeshDistortMaterial, Sphere } from "@react-three/drei"
 import { motion, useInView, AnimatePresence } from "framer-motion"
-import { Monitor, Shield, Cloud, Zap, Database, Code } from "lucide-react"
+import { HeartPulse, Monitor, Shield, Cloud, Zap, Database, Code } from "lucide-react"
 import WorkModal from "./work-modal"
 import type * as THREE from "three"
+import type { LucideIcon } from "lucide-react"
 
 function FloatingSphere({ color, position }: { color: string; position: [number, number, number] }) {
   const meshRef = useRef<THREE.Mesh>(null)
@@ -29,47 +30,61 @@ function FloatingSphere({ color, position }: { color: string; position: [number,
 
 const services = [
   {
+    icon: HeartPulse,
+    title: "Healthcare HMS Solutions",
+    description: "Comprehensive hospital management system with ABDM integration and digital health records.",
+    color: "#0ea5e9",
+    gradient: "from-sky-500 to-emerald-500",
+    featured: true,
+  },
+  {
     icon: Monitor,
     title: "Tech Support",
     description:
       "Expert technical assistance for hardware and software issues, ensuring your systems run smoothly 24/7.",
-    color: "#8b5cf6",
-    gradient: "from-purple-500 to-purple-700",
+    color: "#64748b",
+    gradient: "from-slate-500 to-slate-600",
+    featured: false,
   },
   {
     icon: Shield,
     title: "Cybersecurity",
     description: "Comprehensive security solutions to protect your data and infrastructure from emerging threats.",
-    color: "#06b6d4",
-    gradient: "from-cyan-500 to-blue-600",
+    color: "#475569",
+    gradient: "from-slate-500 to-slate-700",
+    featured: false,
   },
   {
     icon: Cloud,
     title: "Cloud Solutions",
     description: "Scalable cloud infrastructure and migration services to modernize your business operations.",
-    color: "#a78bfa",
-    gradient: "from-violet-400 to-purple-600",
+    color: "#64748b",
+    gradient: "from-slate-500 to-slate-700",
+    featured: false,
   },
   {
     icon: Zap,
     title: "IT Consulting",
     description: "Strategic technology guidance to optimize your IT infrastructure and drive business growth.",
-    color: "#fbbf24",
-    gradient: "from-yellow-400 to-orange-500",
+    color: "#64748b",
+    gradient: "from-slate-500 to-slate-700",
+    featured: false,
   },
   {
     icon: Database,
     title: "Data Management",
     description: "Efficient data storage, backup, and recovery solutions to safeguard your critical information.",
-    color: "#10b981",
-    gradient: "from-emerald-400 to-green-600",
+    color: "#64748b",
+    gradient: "from-slate-500 to-slate-700",
+    featured: false,
   },
   {
     icon: Code,
     title: "Custom Development",
     description: "Tailored software solutions designed to meet your unique business requirements.",
-    color: "#f472b6",
-    gradient: "from-pink-400 to-rose-600",
+    color: "#64748b",
+    gradient: "from-slate-500 to-slate-700",
+    featured: false,
   },
 ]
 
@@ -84,7 +99,7 @@ export function Services() {
 
   return (
     <section id="services" className="py-20 sm:py-24 lg:py-32 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-cyan-500/5 to-background pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-sky-500/5 via-emerald-500/5 to-background pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
@@ -99,17 +114,18 @@ export function Services() {
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-            className="inline-block px-4 py-2 mb-4 text-xs font-medium bg-gradient-to-r from-purple-500/20 to-cyan-500/20 text-primary rounded-full border border-primary/30 backdrop-blur-sm"
+            className="inline-block px-4 py-2 mb-4 text-xs font-medium bg-gradient-to-r from-sky-500/20 to-emerald-500/20 text-primary rounded-full border border-primary/30 backdrop-blur-sm"
           >
-            ✨ Our Services
+            ✨ Product & Services
           </motion.div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 text-balance">
-            <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-400 bg-clip-text text-transparent">
-              Comprehensive Tech Solutions
+            <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent">
+              Healthcare-First Service Stack
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
-            We provide a full spectrum of technology services to help your business thrive in the digital age.
+            HMS implementation is our primary focus, supported by core technology services for deployment, security,
+            and scalability.
           </p>
         </motion.div>
 
@@ -138,7 +154,7 @@ function ServiceCard({
 }: {
   service: (typeof services)[0]
   index: number
-  Icon: any
+  Icon: LucideIcon
   onLearnMore: (service: (typeof services)[0]) => void
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
@@ -188,6 +204,11 @@ function ServiceCard({
           {service.title}
         </h3>
         <p className="text-muted-foreground leading-relaxed mb-4">{service.description}</p>
+        {!service.featured && (
+          <span className="inline-block text-xs text-muted-foreground/80 px-2 py-1 rounded-full border border-border/70 bg-background/30">
+            Supporting Service
+          </span>
+        )}
 
         <motion.button
           whileHover={{ scale: 1.05 }}
